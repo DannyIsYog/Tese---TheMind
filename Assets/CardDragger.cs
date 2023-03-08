@@ -61,7 +61,7 @@ public class CardDragger : MonoBehaviour
         int steps = 100;
         for (int i = 0; i < steps; i++)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y + 0.02f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.05f, transform.position.z);
             yield return new WaitForSeconds(0.001f);
         }
 

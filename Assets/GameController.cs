@@ -88,4 +88,16 @@ public class GameController : MonoBehaviour
             hand.ReceiveCard(cardObject);
         }
     }
+
+    public void CardToMiddlePile(GameObject card)
+    {
+        // get card value
+        int cardValue = int.Parse(card.GetComponentInChildren<TMPro.TextMeshProUGUI>().text);
+
+        // add card to middle pile
+        CardsInMiddlePile.Add(cardValue);
+
+        // set card position to Game Controller
+        card.transform.position = transform.position;
+    }
 }

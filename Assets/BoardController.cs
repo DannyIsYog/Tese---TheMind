@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class BoardController : MonoBehaviour
 {
+    GameController gameController;
+
     private void Start()
     {
-
+        gameController = FindObjectOfType<GameController>();
     }
 
     //add card to middle pile
     public void AddCardToMiddlePile(GameObject card)
     {
-        // get card value
-        int cardValue = int.Parse(card.GetComponentInChildren<TMPro.TextMeshProUGUI>().text);
+        gameController.CardToMiddlePile(card);
     }
 }

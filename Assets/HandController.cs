@@ -38,9 +38,6 @@ public class HandController : MonoBehaviour
         // remove card from hand
         CardsInHand.Remove(card);
 
-        // destroy card
-        Destroy(card);
-
         SortCardsInHand();
 
         DispositionCards();
