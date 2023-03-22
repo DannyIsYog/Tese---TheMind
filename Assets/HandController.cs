@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
+using TMPro;
 using UnityEngine;
 
-public class HandController : MonoBehaviour
+public class HandController : MonoBehaviourPunCallbacks
 {
     // list of cards in hand
     public List<GameObject> CardsInHand = new List<GameObject>();
@@ -12,7 +14,33 @@ public class HandController : MonoBehaviour
 
     float MinimumCardSpacing = 0.5f;
 
-    // card spacing
+    public BoardController boardController;
+
+    public GameObject playArea;
+
+    public Camera mainCamera;
+
+    //text of player number
+    public TextMeshProUGUI playerNumberText;
+
+    private void Start()
+    {
+        // get game controller in scene
+        GameController gameController = FindObjectOfType<GameController>();
+
+        // register hand with game controller
+        gameController.RegisterHand(this);
+
+        if (!photonView.IsMine)
+        {
+            // disable camera if not owned by local player
+            mainCamera.enabled = false;
+        }
+
+        // get player number
+        int playerNumber = photonView.Owner.ActorNumber;
+        playerNumberText.text = playerNumber.ToString();
+    }
 
     // recieve card from deck
     public void ReceiveCard(GameObject card)
@@ -22,6 +50,12 @@ public class HandController : MonoBehaviour
 
         // set card parent to hand
         card.transform.SetParent(transform);
+
+        // get CardDragger component
+        CardDragger cardDragger = card.GetComponent<CardDragger>();
+        cardDragger.playArea = playArea;
+        cardDragger.handController = this;
+        cardDragger.boardController = boardController;
 
         // set card rotation
         card.transform.localRotation = Quaternion.identity;

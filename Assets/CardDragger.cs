@@ -7,18 +7,15 @@ public class CardDragger : MonoBehaviour
     // 2D card dragger
     private Vector3 startPosition;
 
-    private GameObject playArea;
+    public GameObject playArea;
 
-    private HandController handController;
+    public HandController handController;
 
-    private BoardController boardController;
+    public BoardController boardController;
 
     private void Start()
     {
         startPosition = transform.position;
-        playArea = GameObject.Find("PlayArea");
-        handController = GameObject.Find("Hand").GetComponent<HandController>();
-        boardController = GameObject.Find("Board").GetComponent<BoardController>();
     }
 
     private void OnMouseDrag()
@@ -33,9 +30,9 @@ public class CardDragger : MonoBehaviour
     private void OnMouseUp()
     {
         // check if card is in play area
-        if (transform.position.y >= playArea.transform.position.y - playArea.transform.position.y / 2)
+        if (playArea.GetComponent<Collider2D>().bounds.Contains(transform.position))
         {
-            //transform.position = new Vector3(playArea.transform.position.x, playArea.transform.position.y, playArea.transform.position.z);
+            // add card to middle pile
             MoveCardUp();
         }
         else
@@ -58,10 +55,10 @@ public class CardDragger : MonoBehaviour
 
     IEnumerator MoveCardUpCoroutine()
     {
-        int steps = 100;
+        int steps = 50;
         for (int i = 0; i < steps; i++)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y + 0.05f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z);
             yield return new WaitForSeconds(0.001f);
         }
 
