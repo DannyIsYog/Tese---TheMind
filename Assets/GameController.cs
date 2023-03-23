@@ -15,14 +15,14 @@ public class GameController : MonoBehaviourPunCallbacks
     // list of cards in the middle pile
     public List<int> CardsInMiddlePile = new List<int>();
 
+    public GameObject CardShowing;
+
     // reference to the player who goes first
     private int firstPlayerIndex = -1;
 
     private bool gameStarted = false;
 
     public GameObject CardPrefab;
-
-    public GameObject player;
 
     void Start()
     {
@@ -76,10 +76,9 @@ public class GameController : MonoBehaviourPunCallbacks
                 // remove card from deck
                 CardsInDeck.RemoveAt(0);
                 int ID = Hands[i].photonView.ViewID;
-                photonView.RPC("DrawCard", RpcTarget.All, ID, card);
+                photonView.RPC("DrawCard", RpcTarget.Others, ID, card);
             }
         }
-
         // set active player to the first player
         //photonView.RPC("SetActivePlayer", RpcTarget.AllBuffered, firstPlayerIndex);
     }
@@ -133,6 +132,11 @@ public class GameController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void DrawCard(int playerID, int card)
     {
+        // if is master return
+        if (PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
 
         // check if deck is empty
         if (CardsInDeck.Count > 0)
@@ -166,15 +170,23 @@ public class GameController : MonoBehaviourPunCallbacks
         return null;
     }
 
-    public void CardToMiddlePile(GameObject card)
+    public void CardToMiddlePile(int card)
     {
-        // get card value
-        int cardValue = int.Parse(card.GetComponentInChildren<TMPro.TextMeshProUGUI>().text);
+        //rpc call
+        photonView.RPC("CardToMiddlePileRPC", RpcTarget.MasterClient, card);
+    }
 
-        // add card to middle pile
-        CardsInMiddlePile.Add(cardValue);
+    [PunRPC]
+    public void CardToMiddlePileRPC(int cardValue)
+    {
+        Destroy(CardShowing);
 
-        // set card position to Game Controller
-        card.transform.position = transform.position;
+        // instantiate card object
+        Vector3 cardPosition = transform.position; // adjust card position for visibility
+        GameObject cardObject = PhotonNetwork.Instantiate(CardPrefab.name, cardPosition, Quaternion.identity);
+        cardObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = cardValue.ToString();
+
+        // set cardShowing to the card object
+        CardShowing = cardObject;
     }
 }

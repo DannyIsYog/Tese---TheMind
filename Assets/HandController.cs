@@ -148,23 +148,6 @@ public class HandController : MonoBehaviourPunCallbacks
         }
     }
 
-    // get card spacing
-    public float GetCardSpacing()
-    {
-        // calculate card spacing
-        float cardSpacing = (HandWidth - CardWidth) / (CardsInHand.Count - 1);
-
-        // check if card spacing is less than minimum spacing
-        if (cardSpacing < MinimumCardSpacing)
-        {
-            // set card spacing to minimum spacing
-            cardSpacing = MinimumCardSpacing;
-        }
-
-        // return card spacing
-        return cardSpacing;
-    }
-
     // get hand width
     public float HandWidth
     {
