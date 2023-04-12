@@ -31,6 +31,8 @@ public class HandController : MonoBehaviourPunCallbacks
     //notification text
     public TextMeshProUGUI notificationText;
 
+    public GameObject PlayerReadyButton;
+
     private void Start()
     {
         StartCoroutine(LateStart());
@@ -65,6 +67,24 @@ public class HandController : MonoBehaviourPunCallbacks
         playerNumberText.text = playerNumber.ToString();
         lifes = gameController.lifes;
         UpdateLifeText();
+
+        // set ready button active
+        PlayerReadyButton.SetActive(true);
+    }
+
+    // player ready
+    public void PlayerReady()
+    {
+        // get game controller in scene
+        GameController gameController = FindObjectOfType<GameController>();
+
+        // if game controller is not null
+        if (gameController != null)
+        {
+            // player ready via RPC
+            gameController.photonView.RPC("PlayerReady", RpcTarget.MasterClient, photonView.Owner.ActorNumber);
+            PlayerReadyButton.SetActive(false);
+        }
     }
 
     // recieve card from deck
@@ -116,6 +136,7 @@ public class HandController : MonoBehaviourPunCallbacks
             // remove card from hand
             RemoveCard(CardsInHand[i]);
         }
+        PlayerReadyButton.SetActive(true);
     }
 
     // sort cards in hand by value
@@ -226,5 +247,13 @@ public class HandController : MonoBehaviourPunCallbacks
     {
         RemoveAllCards();
         UpdateLifeText();
+        // activate ready button
+        PlayerReadyButton.SetActive(true);
+    }
+
+    public void GetReadyButton()
+    {
+        // deactivate ready button
+        PlayerReadyButton.SetActive(true);
     }
 }

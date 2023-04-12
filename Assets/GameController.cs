@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 
 public class GameController : MonoBehaviourPunCallbacks
@@ -34,6 +35,8 @@ public class GameController : MonoBehaviourPunCallbacks
     public GameObject StartButton;
 
     int level = 1;
+
+    public TextMeshProUGUI PlayerReadyText;
 
     void Start()
     {
@@ -76,7 +79,6 @@ public class GameController : MonoBehaviourPunCallbacks
         // set gameStarted flag to true
         gameStarted = true;
         Debug.Log("Game Started");
-        StartButton.SetActive(false);
         // draw 5 cards for each player
         for (int i = 0; i < Hands.Count; i++)
         {
@@ -100,6 +102,45 @@ public class GameController : MonoBehaviourPunCallbacks
     {
         Hands.Add(hand);
         PlayersReady.Add(hand.photonView.Owner.ActorNumber, false);
+        UpdatePlayerReadyText();
+    }
+
+    public void UpdatePlayerReadyText()
+    {
+        // text in form "PLayers Ready 5/6"
+        PlayerReadyText.text = "Players Ready " + GetPlayersReady() + "/" + PlayersReady.Count;
+    }
+
+    public int GetPlayersReady()
+    {
+        int count = 0;
+        foreach (var player in PlayersReady)
+        {
+            if (player.Value)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    [PunRPC]
+    public void PlayerReady(int playerID)
+    {
+        PlayersReady[playerID] = true;
+        bool allReady = true;
+        foreach (var player in PlayersReady)
+        {
+            if (!player.Value)
+            {
+                allReady = false;
+                break;
+            }
+        }
+        if (allReady)
+        {
+            StartGame();
+        }
     }
 
     // create deck of cards numbers 1 to 100
@@ -303,8 +344,10 @@ public class GameController : MonoBehaviourPunCallbacks
         CreateDeck();
         ShuffleDeck();
 
-        // reset start button
-        StartButton.SetActive(true);
+        // get ready button via RPC
+        photonView.RPC("GetReadyButton", RpcTarget.Others);
+
+
     }
 
     public void CheckLife()
@@ -333,7 +376,6 @@ public class GameController : MonoBehaviourPunCallbacks
         ShuffleDeck();
 
         // reset start button
-        StartButton.SetActive(true);
 
         // reset lifes
         lifes = 3;
@@ -379,6 +421,15 @@ public class GameController : MonoBehaviourPunCallbacks
         foreach (HandController hand in Hands)
         {
             hand.UpdateNotification(message);
+        }
+    }
+
+    [PunRPC]
+    public void GetReadyButton()
+    {
+        foreach (HandController hand in Hands)
+        {
+            hand.GetReadyButton();
         }
     }
 }
