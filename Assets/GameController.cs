@@ -12,8 +12,15 @@ public class GameController : MonoBehaviourPunCallbacks
     // list of cards in deck
     public List<int> CardsInDeck = new List<int>();
 
+    //list of players and if they are ready
+    public Dictionary<int, bool> PlayersReady = new Dictionary<int, bool>();
+
+    public List<int> CardsInHands = new List<int>();
+
     // list of cards in the middle pile
     public List<int> CardsInMiddlePile = new List<int>();
+
+    public int lifes = 3;
 
     public GameObject CardShowing;
 
@@ -23,6 +30,10 @@ public class GameController : MonoBehaviourPunCallbacks
     private bool gameStarted = false;
 
     public GameObject CardPrefab;
+
+    public GameObject StartButton;
+
+    int level = 1;
 
     void Start()
     {
@@ -54,7 +65,7 @@ public class GameController : MonoBehaviourPunCallbacks
         }
     }
 
-    void StartGame()
+    public void StartGame()
     {
         // check if game has already started
         if (gameStarted)
@@ -64,15 +75,17 @@ public class GameController : MonoBehaviourPunCallbacks
 
         // set gameStarted flag to true
         gameStarted = true;
-
+        Debug.Log("Game Started");
+        StartButton.SetActive(false);
         // draw 5 cards for each player
         for (int i = 0; i < Hands.Count; i++)
         {
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < level; j++)
             {
                 // get card from deck
                 int card = CardsInDeck[0];
                 Debug.Log("Player " + i + " drew card " + card);
+                CardsInHands.Add(card);
                 // remove card from deck
                 CardsInDeck.RemoveAt(0);
                 int ID = Hands[i].photonView.ViewID;
@@ -83,23 +96,10 @@ public class GameController : MonoBehaviourPunCallbacks
         //photonView.RPC("SetActivePlayer", RpcTarget.AllBuffered, firstPlayerIndex);
     }
 
-    [PunRPC]
-    void SetActivePlayer(int index)
-    {
-        // deactivate all hands
-        foreach (HandController hand in Hands)
-        {
-            hand.gameObject.SetActive(false);
-        }
-
-        // activate current player's hand
-        Hands[index].gameObject.SetActive(true);
-
-    }
-
     public void RegisterHand(HandController hand)
     {
         Hands.Add(hand);
+        PlayersReady.Add(hand.photonView.Owner.ActorNumber, false);
     }
 
     // create deck of cards numbers 1 to 100
@@ -144,7 +144,7 @@ public class GameController : MonoBehaviourPunCallbacks
 
             // create card object
             Vector3 cardPosition = transform.position + new Vector3(0, 1.5f, 0); // adjust card position for visibility
-            GameObject cardObject = PhotonNetwork.Instantiate(CardPrefab.name, cardPosition, Quaternion.identity);
+            GameObject cardObject = Instantiate(CardPrefab, cardPosition, Quaternion.identity);
 
             // set card text using UI tmp
             cardObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = card.ToString();
@@ -179,14 +179,206 @@ public class GameController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void CardToMiddlePileRPC(int cardValue)
     {
+        if (!gameStarted) return;
+        // check if card played has higher value than the current card showing
+        if (CardsInMiddlePile.Count > 0)
+        {
+            if (cardValue <= CardsInMiddlePile[CardsInMiddlePile.Count - 1])
+            {
+                Debug.Log("Card played is lower than the current card showing");
+                return;
+            }
+        }
         Destroy(CardShowing);
 
         // instantiate card object
         Vector3 cardPosition = transform.position; // adjust card position for visibility
-        GameObject cardObject = PhotonNetwork.Instantiate(CardPrefab.name, cardPosition, Quaternion.identity);
+        GameObject cardObject = Instantiate(CardPrefab, cardPosition, Quaternion.identity);
         cardObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = cardValue.ToString();
+
+        if (!IsLowestCard(cardValue))
+        {
+            LoseLifes(cardValue);
+        }
 
         // set cardShowing to the card object
         CardShowing = cardObject;
+        CardsInHands.Remove(cardValue);
+        SendNotificationRPC("Card " + cardValue + " was played");
+        CheckHands();
+    }
+
+    public void LoseLifes(int cardValue)
+    {
+        List<int> cardsLower = GetCardsLowerThan(cardValue);
+
+        // lose lifes equal to the number of cards lower than the card played
+        lifes -= cardsLower.Count;
+
+        foreach (int card in cardsLower)
+        {
+            photonView.RPC("CardsLoseColour", RpcTarget.Others, card);
+            photonView.RPC("UpdateLifes", RpcTarget.Others, lifes);
+            CheckLife();
+        }
+    }
+
+    [PunRPC]
+    public void CardsLoseColour(int card)
+    {
+        foreach (HandController hand in Hands)
+        {
+            hand.ChangeCardColours(card);
+        }
+    }
+
+    [PunRPC]
+    public void UpdateLifes(int lifes)
+    {
+        foreach (HandController hand in Hands)
+        {
+            hand.UpdateLife(lifes);
+        }
+    }
+
+    // check if the card is the lowest card in the hands of the players
+    public bool IsLowestCard(int card)
+    {
+        // loop through cards in hands
+        foreach (int cardInHand in CardsInHands)
+        {
+            // check if card is lower or equal than the card in hand
+            if (cardInHand <= card)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // function that gets all cards lower than the card given
+    public List<int> GetCardsLowerThan(int card)
+    {
+        List<int> cards = new List<int>();
+
+        // loop through cards in hands
+        foreach (int cardInHand in CardsInHands)
+        {
+            // check if card is lower than the card in hand
+            if (cardInHand < card)
+            {
+                cards.Add(cardInHand);
+            }
+        }
+        return cards;
+    }
+
+    // check if all hands are empty, if so end round and increase level
+    public void CheckHands()
+    {
+        if (CardsInHands.Count > 0) return;
+
+        // if all hands are empty, end round
+        EndRound();
+    }
+
+    public void EndRound()
+    {
+        if (gameStarted) level++;
+
+
+        // reset gameStarted flag
+        gameStarted = false;
+
+        // reset cards in hands
+        CardsInHands.Clear();
+
+        // reset cards in middle pile
+        CardsInMiddlePile.Clear();
+
+        // reset card showing
+        Destroy(CardShowing);
+
+        // reset deck
+        CreateDeck();
+        ShuffleDeck();
+
+        // reset start button
+        StartButton.SetActive(true);
+    }
+
+    public void CheckLife()
+    {
+        if (lifes < 0)
+        {
+            EndGame();
+        }
+        Debug.Log("CheckLife");
+    }
+
+    public void EndGame()
+    {
+        Debug.Log("EndGame");
+        // reset gameStarted flag
+        gameStarted = false;
+
+        // reset cards in hands
+        CardsInHands.Clear();
+
+        // reset cards in middle pile
+        CardsInMiddlePile.Clear();
+
+        // reset deck
+        CreateDeck();
+        ShuffleDeck();
+
+        // reset start button
+        StartButton.SetActive(true);
+
+        // reset lifes
+        lifes = 3;
+
+        // reset level
+        level = 1;
+
+        // reset hands
+        ResetHandsRPC();
+        // send notification
+        SendNotificationRPC("Game Over");
+
+        // update lifes
+        photonView.RPC("UpdateLifes", RpcTarget.Others, lifes);
+
+        // reset card showing
+        Destroy(CardShowing);
+    }
+
+    public void ResetHandsRPC()
+    {
+        photonView.RPC("ResetHands", RpcTarget.Others);
+    }
+
+    [PunRPC]
+    public void ResetHands()
+    {
+        foreach (HandController hand in Hands)
+        {
+            hand.ResetHand();
+        }
+    }
+
+    //send notification
+    public void SendNotificationRPC(string message)
+    {
+        photonView.RPC("SendNotification", RpcTarget.All, message);
+    }
+
+    [PunRPC]
+    public void SendNotification(string message)
+    {
+        foreach (HandController hand in Hands)
+        {
+            hand.UpdateNotification(message);
+        }
     }
 }

@@ -10,6 +10,11 @@ public class BoardController : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        StartCoroutine(LateStart());
+    }
+    private IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(2f);
         gameController = FindObjectOfType<GameController>();
     }
 

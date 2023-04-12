@@ -12,6 +12,8 @@ public class HandController : MonoBehaviourPunCallbacks
     // card prefab
     public GameObject CardPrefab;
 
+    public int lifes;
+
     float MinimumCardSpacing = 0.5f;
 
     public BoardController boardController;
@@ -23,10 +25,31 @@ public class HandController : MonoBehaviourPunCallbacks
     //text of player number
     public TextMeshProUGUI playerNumberText;
 
+    //text of player lifes
+    public TextMeshProUGUI playerLifesText;
+
+    //notification text
+    public TextMeshProUGUI notificationText;
+
     private void Start()
+    {
+        StartCoroutine(LateStart());
+    }
+
+    // late start
+    private IEnumerator LateStart()
     {
         // get game controller in scene
         GameController gameController = FindObjectOfType<GameController>();
+
+        //while game controller is not null get the game controller
+        while (gameController == null)
+        {
+            //wait for 1 second
+            yield return new WaitForSeconds(1f);
+            //get game controller in scene
+            gameController = FindObjectOfType<GameController>();
+        }
 
         // register hand with game controller
         gameController.RegisterHand(this);
@@ -40,6 +63,8 @@ public class HandController : MonoBehaviourPunCallbacks
         // get player number
         int playerNumber = photonView.Owner.ActorNumber;
         playerNumberText.text = playerNumber.ToString();
+        lifes = gameController.lifes;
+        UpdateLifeText();
     }
 
     // recieve card from deck
@@ -80,6 +105,11 @@ public class HandController : MonoBehaviourPunCallbacks
     // remove all cards from hand
     public void RemoveAllCards()
     {
+        //destroy all cards in hand
+        foreach (GameObject card in CardsInHand)
+        {
+            Destroy(card);
+        }
         // loop through cards in hand
         for (int i = CardsInHand.Count - 1; i >= 0; i--)
         {
@@ -148,23 +178,53 @@ public class HandController : MonoBehaviourPunCallbacks
         }
     }
 
-    // get hand width
-    public float HandWidth
+    public void ChangeCardColours(int card)
     {
-        get
+        // loop through cards in hand
+        for (int i = 0; i < CardsInHand.Count; i++)
         {
-            // get hand width
-            return GetComponent<RectTransform>().rect.width;
+            // get card number from text
+            int cardNumber = int.Parse(CardsInHand[i].GetComponentInChildren<TextMeshProUGUI>().text);
+
+            // check if card number is equal to card
+            if (cardNumber == card)
+            {
+                // change card colour
+                CardsInHand[i].GetComponent<CardDragger>().ChangeCardColours();
+            }
         }
     }
 
-    // get card width
-    public float CardWidth
+    public void UpdateLife(int i)
     {
-        get
+        lifes = i;
+        UpdateLifeText();
+    }
+
+    public void UpdateLifeText()
+    {
+        playerLifesText.text = lifes.ToString() + "x Lifes";
+    }
+
+    public void UpdateNotification(string text)
+    {
+        if (notificationText != null)
         {
-            // get card width
-            return CardPrefab.GetComponent<RectTransform>().rect.width;
+            //cancel invoke
+            CancelInvoke();
         }
+        notificationText.text = text;
+        Invoke("UpdateNotificationText", 2f);
+    }
+
+    public void UpdateNotificationText()
+    {
+        notificationText.text = "";
+    }
+
+    public void ResetHand()
+    {
+        RemoveAllCards();
+        UpdateLifeText();
     }
 }

@@ -30,11 +30,9 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
-
         // join room
         PhotonNetwork.JoinRoom(RoomNameInputField.text);
     }
-
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
