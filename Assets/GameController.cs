@@ -10,6 +10,10 @@ public class GameController : MonoBehaviourPunCallbacks
     // list of hands
     public List<HandController> Hands = new List<HandController>();
 
+    public Dictionary<int, TextMeshProUGUI> cardCountEachPlayer = new Dictionary<int, TextMeshProUGUI>();
+
+    public List<TextMeshProUGUI> cardCountEachPlayerText = new List<TextMeshProUGUI>();
+
     // list of cards in deck
     public List<int> CardsInDeck = new List<int>();
 
@@ -54,18 +58,15 @@ public class GameController : MonoBehaviourPunCallbacks
         }
     }
 
+    void Update()
+    {
+        UpdateCardCountEachPlayer();
+    }
+
     [PunRPC]
     void SetFirstPlayer(int index)
     {
         firstPlayerIndex = index;
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && PhotonNetwork.IsMasterClient)
-        {
-            StartGame();
-        }
     }
 
     public void StartGame()
@@ -94,6 +95,7 @@ public class GameController : MonoBehaviourPunCallbacks
                 photonView.RPC("DrawCard", RpcTarget.Others, ID, card);
             }
         }
+        UpdateCardCountEachPlayer();
         // set active player to the first player
         //photonView.RPC("SetActivePlayer", RpcTarget.AllBuffered, firstPlayerIndex);
     }
@@ -102,6 +104,7 @@ public class GameController : MonoBehaviourPunCallbacks
     {
         Hands.Add(hand);
         PlayersReady.Add(hand.photonView.Owner.ActorNumber, false);
+        cardCountEachPlayer.Add(hand.photonView.ViewID, cardCountEachPlayerText[Hands.Count - 1]);
         UpdatePlayerReadyText();
     }
 
@@ -141,6 +144,7 @@ public class GameController : MonoBehaviourPunCallbacks
         {
             StartGame();
         }
+        UpdatePlayerReadyText();
     }
 
     // create deck of cards numbers 1 to 100
@@ -188,7 +192,7 @@ public class GameController : MonoBehaviourPunCallbacks
             GameObject cardObject = Instantiate(CardPrefab, cardPosition, Quaternion.identity);
 
             // set card text using UI tmp
-            cardObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = card.ToString();
+            cardObject.GetComponentInChildren<CardDragger>().SetCardNumber(card);
 
             // add card to player hand
             HandController playerHand = GetHand(playerID);
@@ -235,7 +239,7 @@ public class GameController : MonoBehaviourPunCallbacks
         // instantiate card object
         Vector3 cardPosition = transform.position; // adjust card position for visibility
         GameObject cardObject = Instantiate(CardPrefab, cardPosition, Quaternion.identity);
-        cardObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = cardValue.ToString();
+        cardObject.GetComponentInChildren<CardDragger>().SetCardNumber(cardValue);
 
         if (!IsLowestCard(cardValue))
         {
@@ -317,6 +321,7 @@ public class GameController : MonoBehaviourPunCallbacks
     // check if all hands are empty, if so end round and increase level
     public void CheckHands()
     {
+        UpdateCardCountEachPlayer();
         if (CardsInHands.Count > 0) return;
 
         // if all hands are empty, end round
@@ -327,6 +332,11 @@ public class GameController : MonoBehaviourPunCallbacks
     {
         if (gameStarted) level++;
 
+        // reset ready flags on PlayersReady dictionary
+        /*foreach (KeyValuePair<int, bool> player in PlayersReady)
+        {
+            PlayersReady[player.Key] = false;
+        }*/
         // send notification to all players that the round has ended
         SendNotificationRPC("Round ended");
 
@@ -393,6 +403,11 @@ public class GameController : MonoBehaviourPunCallbacks
         // reset level
         level = 1;
 
+        foreach (KeyValuePair<int, bool> player in PlayersReady)
+        {
+            PlayersReady[player.Key] = false;
+        }
+
         // reset hands
         ResetHandsRPC();
 
@@ -438,6 +453,17 @@ public class GameController : MonoBehaviourPunCallbacks
         foreach (HandController hand in Hands)
         {
             hand.GetReadyButton();
+        }
+    }
+
+    public void UpdateCardCountEachPlayer()
+    {
+        //iterate the dictionary cardCountEachPlayer and show how many cards each player has
+        foreach (KeyValuePair<int, TextMeshProUGUI> entry in cardCountEachPlayer)
+        {
+            int count = GetHand(entry.Key).CardsCount;
+            entry.Value.text = "Cards: " + count.ToString();
+            Debug.Log("Player " + entry.Key + " has " + count + " cards");
         }
     }
 }

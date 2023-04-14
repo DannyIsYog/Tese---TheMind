@@ -8,17 +8,20 @@ public class HandController : MonoBehaviourPunCallbacks
 {
     // list of cards in hand
     public List<GameObject> CardsInHand = new List<GameObject>();
+    public int CardsCount = 0;
 
     // card prefab
     public GameObject CardPrefab;
 
     public int lifes;
 
-    float MinimumCardSpacing = 0.5f;
+    float MinimumCardSpacing = 0.1f;
 
     public BoardController boardController;
 
     public GameObject playArea;
+
+    public GameObject handArea;
 
     public Camera mainCamera;
 
@@ -104,11 +107,12 @@ public class HandController : MonoBehaviourPunCallbacks
 
         // set card rotation
         card.transform.localRotation = Quaternion.identity;
-
+        card.transform.parent = handArea.transform;
         // sort cards in hand
         SortCardsInHand();
 
         DispositionCards();
+        photonView.RPC("UpdateCardCount", RpcTarget.All, CardsInHand.Count, photonView.ViewID);
     }
 
     // remove card from hand
@@ -120,6 +124,7 @@ public class HandController : MonoBehaviourPunCallbacks
         SortCardsInHand();
 
         DispositionCards();
+        photonView.RPC("UpdateCardCount", RpcTarget.All, CardsInHand.Count, photonView.ViewID);
     }
 
     // remove all cards from hand
@@ -137,6 +142,7 @@ public class HandController : MonoBehaviourPunCallbacks
             RemoveCard(CardsInHand[i]);
         }
         PlayerReadyButton.SetActive(true);
+        photonView.RPC("UpdateCardCount", RpcTarget.All, CardsInHand.Count, photonView.ViewID);
     }
 
     // sort cards in hand by value
@@ -224,7 +230,8 @@ public class HandController : MonoBehaviourPunCallbacks
 
     public void UpdateLifeText()
     {
-        playerLifesText.text = lifes.ToString() + "x";
+        // repeat the string "♥" equal to the number of lifes on text
+        playerLifesText.text = new string('♥', lifes);
     }
 
     public void UpdateNotification(string text)
@@ -249,11 +256,21 @@ public class HandController : MonoBehaviourPunCallbacks
         UpdateLifeText();
         // activate ready button
         PlayerReadyButton.SetActive(true);
+        photonView.RPC("UpdateCardCount", RpcTarget.All, CardsInHand.Count, photonView.ViewID);
     }
 
     public void GetReadyButton()
     {
         // deactivate ready button
         PlayerReadyButton.SetActive(true);
+    }
+
+    [PunRPC]
+    public void UpdateCardCount(int count, int ID)
+    {
+        if (photonView.ViewID == ID)
+        {
+            CardsCount = count;
+        }
     }
 }

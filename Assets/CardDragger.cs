@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CardDragger : MonoBehaviour
@@ -15,9 +16,19 @@ public class CardDragger : MonoBehaviour
 
     public SpriteRenderer card;
 
+    public List<TextMeshProUGUI> cardNumber;
+
     private void Start()
     {
         startPosition = transform.position;
+    }
+
+    public void SetCardNumber(int number)
+    {
+        foreach (TextMeshProUGUI text in cardNumber)
+        {
+            text.text = number.ToString();
+        }
     }
 
     private void OnMouseDrag()
