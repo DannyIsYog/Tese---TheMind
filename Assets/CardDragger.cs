@@ -13,6 +13,8 @@ public class CardDragger : MonoBehaviour
 
     public BoardController boardController;
 
+    public SpriteRenderer card;
+
     private void Start()
     {
         startPosition = transform.position;
@@ -69,22 +71,19 @@ public class CardDragger : MonoBehaviour
 
     public void ChangeCardColours()
     {
-        GetComponent<SpriteRenderer>().color = Color.red;
+        // change alpha of card to 1
+        card.color = new Color(card.color.r, card.color.g, card.color.b, 1);
         StartCoroutine(ChangeCardColourBack());
         MoveCardUp();
     }
 
     public IEnumerator ChangeCardColourBack()
     {
-        float tick = 0f;
-        Color startColor = Color.red;
-        Color endColor = Color.white;
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        while (spriteRenderer.color != endColor)
+        // change alpha of card to 0 slowly over 2 seconds
+        for (int i = 0; i < 100; i++)
         {
-            tick += Time.deltaTime * 0.5f;
-            spriteRenderer.color = Color.Lerp(startColor, endColor, tick);
-            yield return null;
+            card.color = new Color(card.color.r, card.color.g, card.color.b, card.color.a - 0.01f);
+            yield return new WaitForSeconds(0.02f);
         }
     }
 

@@ -224,7 +224,7 @@ public class HandController : MonoBehaviourPunCallbacks
 
     public void UpdateLifeText()
     {
-        playerLifesText.text = lifes.ToString() + "x Lifes";
+        playerLifesText.text = lifes.ToString() + "x";
     }
 
     public void UpdateNotification(string text)

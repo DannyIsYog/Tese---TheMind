@@ -320,13 +320,18 @@ public class GameController : MonoBehaviourPunCallbacks
         if (CardsInHands.Count > 0) return;
 
         // if all hands are empty, end round
-        EndRound();
+        StartCoroutine(EndRound());
     }
 
-    public void EndRound()
+    public IEnumerator EndRound()
     {
         if (gameStarted) level++;
 
+        // send notification to all players that the round has ended
+        SendNotificationRPC("Round ended");
+
+        // wait 5 seconds
+        yield return new WaitForSeconds(5);
 
         // reset gameStarted flag
         gameStarted = false;
@@ -354,13 +359,18 @@ public class GameController : MonoBehaviourPunCallbacks
     {
         if (lifes < 0)
         {
-            EndGame();
+            StartCoroutine(EndGame());
         }
         Debug.Log("CheckLife");
     }
 
-    public void EndGame()
+    public IEnumerator EndGame()
     {
+        SendNotificationRPC("Game Over");
+
+        // wait 5 seconds
+        yield return new WaitForSeconds(5);
+
         Debug.Log("EndGame");
         // reset gameStarted flag
         gameStarted = false;
@@ -385,8 +395,6 @@ public class GameController : MonoBehaviourPunCallbacks
 
         // reset hands
         ResetHandsRPC();
-        // send notification
-        SendNotificationRPC("Game Over");
 
         // update lifes
         photonView.RPC("UpdateLifes", RpcTarget.Others, lifes);
