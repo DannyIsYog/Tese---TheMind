@@ -44,6 +44,9 @@ public class GameController : MonoBehaviourPunCallbacks
 
     public TextMeshProUGUI PlayerReadyText;
 
+    bool endRoundRunning = false;
+    object lockObjectEndRound = new object();
+
     void Start()
     {
         // create deck
@@ -328,19 +331,24 @@ public class GameController : MonoBehaviourPunCallbacks
         UpdateCardCountEachPlayer();
         if (CardsInHands.Count > 0) return;
 
-        // if all hands are empty, end round
-        StartCoroutine(EndRound());
+        lock (lockObjectEndRound)
+        {
+            if (!endRoundRunning) StartCoroutine(EndRound());
+        }
     }
 
     public IEnumerator EndRound()
     {
-        if (gameStarted) level++;
-
-        // reset ready flags on PlayersReady dictionary
-        /*foreach (KeyValuePair<int, bool> player in PlayersReady)
+        lock (lockObjectEndRound)
         {
-            PlayersReady[player.Key] = false;
-        }*/
+            if (endRoundRunning) yield break;
+            endRoundRunning = true;
+        }
+        if (gameStarted)
+        {
+            gameStarted = false;
+            level++;
+        }
         // send notification to all players that the round has ended
         SendNotificationRPC("Round ended");
 
@@ -362,11 +370,13 @@ public class GameController : MonoBehaviourPunCallbacks
         // reset deck
         CreateDeck();
         ShuffleDeck();
-
+        ResetPlayersReady();
         // get ready button via RPC
         photonView.RPC("GetReadyButton", RpcTarget.Others);
-
-
+        lock (lockObjectEndRound)
+        {
+            endRoundRunning = false;
+        }
     }
 
     public void CheckLife()
@@ -407,11 +417,6 @@ public class GameController : MonoBehaviourPunCallbacks
         // reset level
         level = 1;
 
-        foreach (KeyValuePair<int, bool> player in PlayersReady)
-        {
-            PlayersReady[player.Key] = false;
-        }
-
         // reset hands
         ResetHandsRPC();
 
@@ -420,6 +425,19 @@ public class GameController : MonoBehaviourPunCallbacks
 
         // reset card showing
         Destroy(CardShowing);
+        ResetPlayersReady();
+    }
+
+    public void ResetPlayersReady()
+    {
+        // create copy of playersReady
+        Dictionary<int, bool> playersReadyCopy = new Dictionary<int, bool>(PlayersReady);
+        // reset all the values of the dictionary to false
+
+        foreach (KeyValuePair<int, bool> entry in playersReadyCopy)
+        {
+            PlayersReady[entry.Key] = false;
+        }
     }
 
     public void ResetHandsRPC()
