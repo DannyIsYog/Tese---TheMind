@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
-public class CardDragger : MonoBehaviour
+public class CardDragger : MonoBehaviourPunCallbacks
 {
     // 2D card dragger
     private Vector3 startPosition;
@@ -18,9 +19,14 @@ public class CardDragger : MonoBehaviour
 
     public List<TextMeshProUGUI> cardNumber;
 
+    public GameController gameController;
+
+    public bool holding = false;
+
     private void Start()
     {
         startPosition = transform.position;
+        gameController = FindObjectOfType<GameController>();
     }
 
     public void SetCardNumber(int number)
@@ -33,6 +39,11 @@ public class CardDragger : MonoBehaviour
 
     private void OnMouseDrag()
     {
+        if (holding == false)
+        {
+            holding = true;
+            gameController.photonView.RPC("PlayingCard", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, true);
+        }
         // get mouse position
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -42,6 +53,11 @@ public class CardDragger : MonoBehaviour
 
     private void OnMouseUp()
     {
+        if (holding == true)
+        {
+            holding = false;
+            gameController.photonView.RPC("PlayingCard", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, false);
+        }
         // check if card is in play area
         if (playArea.GetComponent<Collider2D>().bounds.Contains(transform.position))
         {

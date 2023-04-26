@@ -12,6 +12,8 @@ public class GameController : MonoBehaviourPunCallbacks
 
     public Dictionary<int, TextMeshProUGUI> cardCountEachPlayer = new Dictionary<int, TextMeshProUGUI>();
 
+    public Dictionary<int, bool> playingCard = new Dictionary<int, bool>();
+
     public List<TextMeshProUGUI> cardCountEachPlayerText = new List<TextMeshProUGUI>();
 
     // list of cards in deck
@@ -71,6 +73,10 @@ public class GameController : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
         // check if game has already started
         if (gameStarted)
         {
@@ -79,7 +85,7 @@ public class GameController : MonoBehaviourPunCallbacks
 
         // set gameStarted flag to true
         gameStarted = true;
-        Debug.Log("Game Started");
+        lifes = 3;
         // draw 5 cards for each player
         for (int i = 0; i < Hands.Count; i++)
         {
@@ -96,14 +102,14 @@ public class GameController : MonoBehaviourPunCallbacks
             }
         }
         UpdateCardCountEachPlayer();
-        // set active player to the first player
-        //photonView.RPC("SetActivePlayer", RpcTarget.AllBuffered, firstPlayerIndex);
+        photonView.RPC("UpdateLifes", RpcTarget.Others, lifes);
     }
 
     public void RegisterHand(HandController hand)
     {
         Hands.Add(hand);
         PlayersReady.Add(hand.photonView.Owner.ActorNumber, false);
+        playingCard.Add(hand.photonView.Owner.ActorNumber, false);
         cardCountEachPlayer.Add(hand.photonView.ViewID, cardCountEachPlayerText[Hands.Count - 1]);
         UpdatePlayerReadyText();
     }
@@ -256,9 +262,7 @@ public class GameController : MonoBehaviourPunCallbacks
     public void LoseLifes(int cardValue)
     {
         List<int> cardsLower = GetCardsLowerThan(cardValue);
-
-        // lose lifes equal to the number of cards lower than the card played
-        lifes -= cardsLower.Count;
+        lifes -= 1;
 
         foreach (int card in cardsLower)
         {
@@ -463,7 +467,39 @@ public class GameController : MonoBehaviourPunCallbacks
         {
             int count = GetHand(entry.Key).CardsCount;
             entry.Value.text = "Cards: " + count.ToString();
-            Debug.Log("Player " + entry.Key + " has " + count + " cards");
+        }
+    }
+
+    [PunRPC]
+    public void PlayingCard(int ID, bool isPlaying)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+        playingCard[ID] = isPlaying;
+
+        // if at least one player is playing, send notification, else remove notification
+        // get how many true values are in the dictionary
+        int count = 0;
+        foreach (KeyValuePair<int, bool> entry in playingCard)
+        {
+            if (entry.Value) count++;
+        }
+        if (count > 0)
+        {
+            photonView.RPC("UpdatePlayingCard", RpcTarget.All, true, count);
+        }
+        else
+        {
+            photonView.RPC("UpdatePlayingCard", RpcTarget.All, false, 0);
+        }
+    }
+
+    [PunRPC]
+    public void UpdatePlayingCard(bool isPlaying, int count)
+    {
+
+        foreach (HandController hand in Hands)
+        {
+            hand.PlayingCardNotificationUpdate(isPlaying, count);
         }
     }
 }

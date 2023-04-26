@@ -36,6 +36,8 @@ public class HandController : MonoBehaviourPunCallbacks
 
     public GameObject PlayerReadyButton;
 
+    public GameObject PlayingCardNotification;
+
     private void Start()
     {
         StartCoroutine(LateStart());
@@ -224,7 +226,9 @@ public class HandController : MonoBehaviourPunCallbacks
 
     public void UpdateLife(int i)
     {
-        lifes = i;
+
+        // set lifes equal to i make sure lifes is never less than 0
+        lifes = Mathf.Max(0, i);
         UpdateLifeText();
     }
 
@@ -272,5 +276,30 @@ public class HandController : MonoBehaviourPunCallbacks
         {
             CardsCount = count;
         }
+    }
+
+    public void PlayingCardNotificationUpdate(bool value, int count)
+    {
+        bool ours = false;
+
+        if (count == 1)
+        {
+            foreach (GameObject card in CardsInHand)
+            {
+                // get CardDragger component
+                CardDragger cardDragger = card.GetComponent<CardDragger>();
+
+                // check if card is being played
+                if (cardDragger.holding)
+                {
+                    ours = true;
+                }
+            }
+        }
+        // check if any CardsInHand has the variable holding true
+
+        if (ours) { PlayingCardNotification.SetActive(false); }
+        else { PlayingCardNotification.SetActive(value); }
+
     }
 }
