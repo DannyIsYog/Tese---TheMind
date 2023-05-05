@@ -191,6 +191,12 @@ public class HandController : MonoBehaviourPunCallbacks
         // calculate starting position
         float startingPosition = -totalWidth / 2f;
 
+        // if we have more than 6 cards in hand, the disposition of cards should start on the left to right and not center
+        if (CardsInHand.Count > 6)
+        {
+            startingPosition = -totalWidth / 2f + (((CardsInHand.Count - 6) * CardsInHand[0].GetComponent<SpriteRenderer>().bounds.size.x) / 2f);
+        }
+
         // loop through cards in hand
         for (int i = 0; i < CardsInHand.Count; i++)
         {

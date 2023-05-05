@@ -40,7 +40,7 @@ public class GameController : MonoBehaviourPunCallbacks
 
     public GameObject StartButton;
 
-    int level = 1;
+    int level = 8;
 
     public TextMeshProUGUI PlayerReadyText;
 
@@ -88,7 +88,6 @@ public class GameController : MonoBehaviourPunCallbacks
 
         // set gameStarted flag to true
         gameStarted = true;
-        lifes = 3;
         // draw 5 cards for each player
         for (int i = 0; i < Hands.Count; i++)
         {
@@ -249,7 +248,7 @@ public class GameController : MonoBehaviourPunCallbacks
         Vector3 cardPosition = transform.position; // adjust card position for visibility
         GameObject cardObject = Instantiate(CardPrefab, cardPosition, Quaternion.identity);
         cardObject.GetComponentInChildren<CardDragger>().SetCardNumber(cardValue);
-
+        CardsInHands.Remove(cardValue);
         if (!IsLowestCard(cardValue))
         {
             LoseLifes(cardValue);
@@ -257,7 +256,6 @@ public class GameController : MonoBehaviourPunCallbacks
 
         // set cardShowing to the card object
         CardShowing = cardObject;
-        CardsInHands.Remove(cardValue);
         SendNotificationRPC("Card " + cardValue + " was played");
         CheckHands();
     }
@@ -484,7 +482,7 @@ public class GameController : MonoBehaviourPunCallbacks
         foreach (KeyValuePair<int, TextMeshProUGUI> entry in cardCountEachPlayer)
         {
             int count = GetHand(entry.Key).CardsCount;
-            entry.Value.text = "Cards: " + count.ToString();
+            entry.Value.text = count.ToString();
         }
     }
 
