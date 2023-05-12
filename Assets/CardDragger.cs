@@ -42,7 +42,7 @@ public class CardDragger : MonoBehaviourPunCallbacks
         if (holding == false)
         {
             holding = true;
-            gameController.photonView.RPC("PlayingCard", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, true);
+            PlayingCardNotification(true);
         }
         // get mouse position
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -56,8 +56,8 @@ public class CardDragger : MonoBehaviourPunCallbacks
         if (holding == true)
         {
             holding = false;
-            gameController.photonView.RPC("PlayingCard", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, false);
         }
+        PlayingCardNotification(false);
         // check if card is in play area
         if (playArea.GetComponent<Collider2D>().bounds.Contains(transform.position))
         {
@@ -70,6 +70,15 @@ public class CardDragger : MonoBehaviourPunCallbacks
             Debug.Log("Card returned to hand");
         }
     }
+
+    public void PlayingCardNotification(bool playing)
+    {
+        holding = playing;
+        gameController.photonView.RPC("PlayingCard", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, playing);
+        Debug.Log("Playing card notification");
+    }
+
+
 
     public void updateStartPosition(Vector3 position)
     {

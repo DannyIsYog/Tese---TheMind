@@ -415,6 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 6874688928717892886, guid: ebda6391f08e28642b4338dc98826bd7, type: 3}
   HostPrefab: {fileID: 1330079235902228177, guid: 256e7ece99336064fb08dcee4463c257, type: 3}
+  AIPrefab: {fileID: 6874688928717892886, guid: ccf5b92310b5e484b9616d06cfc23f7b, type: 3}
   SpawnPoints:
   - {fileID: 767956473}
   - {fileID: 949496647}

@@ -40,7 +40,7 @@ public class GameController : MonoBehaviourPunCallbacks
 
     public GameObject StartButton;
 
-    int level = 8;
+    int level = 1;
 
     public TextMeshProUGUI PlayerReadyText;
 
@@ -113,6 +113,7 @@ public class GameController : MonoBehaviourPunCallbacks
         PlayersReady.Add(hand.photonView.Owner.ActorNumber, false);
         playingCard.Add(hand.photonView.Owner.ActorNumber, false);
         cardCountEachPlayer.Add(hand.photonView.ViewID, cardCountEachPlayerText[Hands.Count - 1]);
+        cardCountEachPlayerText[Hands.Count - 1].gameObject.SetActive(true);
         UpdatePlayerReadyText();
     }
 
@@ -234,29 +235,44 @@ public class GameController : MonoBehaviourPunCallbacks
     {
         if (!gameStarted) return;
         // check if card played has higher value than the current card showing
-        if (CardsInMiddlePile.Count > 0)
-        {
-            if (cardValue <= CardsInMiddlePile[CardsInMiddlePile.Count - 1])
-            {
-                Debug.Log("Card played is lower than the current card showing");
-                return;
-            }
-        }
-        Destroy(CardShowing);
 
-        // instantiate card object
-        Vector3 cardPosition = transform.position; // adjust card position for visibility
-        GameObject cardObject = Instantiate(CardPrefab, cardPosition, Quaternion.identity);
-        cardObject.GetComponentInChildren<CardDragger>().SetCardNumber(cardValue);
-        CardsInHands.Remove(cardValue);
+        if (CardsInMiddlePile.Count == 0)
+        {
+            CardsInMiddlePile.Add(cardValue);
+            CardsInHands.Remove(cardValue);
+            // instantiate card object
+            Vector3 cardPosition = transform.position; // adjust card position for visibility
+            GameObject cardObject = Instantiate(CardPrefab, cardPosition, Quaternion.identity);
+            cardObject.GetComponentInChildren<CardDragger>().SetCardNumber(cardValue);
+
+            CardShowing = cardObject;
+            SendNotificationRPC("Card " + cardValue + " was played");
+        }
+        else if (cardValue <= CardsInMiddlePile[0])
+        {
+            CardsInHands.Remove(cardValue);
+            Debug.Log("Card played is lower than the current card showing");
+            CheckHands();
+            return;
+        }
+        else
+        {
+            CardsInMiddlePile.RemoveAt(0);
+            Destroy(CardShowing);
+            CardsInMiddlePile.Add(cardValue);
+            CardsInHands.Remove(cardValue);
+            // instantiate card object
+            Vector3 cardPosition = transform.position; // adjust card position for visibility
+            GameObject cardObject = Instantiate(CardPrefab, cardPosition, Quaternion.identity);
+            cardObject.GetComponentInChildren<CardDragger>().SetCardNumber(cardValue);
+
+            CardShowing = cardObject;
+            SendNotificationRPC("Card " + cardValue + " was played");
+        }
         if (!IsLowestCard(cardValue))
         {
             LoseLifes(cardValue);
         }
-
-        // set cardShowing to the card object
-        CardShowing = cardObject;
-        SendNotificationRPC("Card " + cardValue + " was played");
         CheckHands();
     }
 
@@ -379,7 +395,7 @@ public class GameController : MonoBehaviourPunCallbacks
 
     public void CheckLife()
     {
-        if (lifes < 0)
+        if (lifes <= 0)
         {
             StartCoroutine(EndGame());
         }

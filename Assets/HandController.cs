@@ -38,6 +38,8 @@ public class HandController : MonoBehaviourPunCallbacks
 
     public GameObject PlayingCardNotification;
 
+    public bool ready = false;
+
     private void Start()
     {
         StartCoroutine(LateStart());
@@ -69,7 +71,7 @@ public class HandController : MonoBehaviourPunCallbacks
 
         // get player number
         int playerNumber = photonView.Owner.ActorNumber;
-        playerNumberText.text = playerNumber.ToString();
+        playerNumberText.text = "PLayer " + playerNumber.ToString();
         lifes = gameController.lifes;
         UpdateLifeText();
 
@@ -89,6 +91,7 @@ public class HandController : MonoBehaviourPunCallbacks
             // player ready via RPC
             gameController.photonView.RPC("PlayerReady", RpcTarget.MasterClient, photonView.Owner.ActorNumber);
             PlayerReadyButton.SetActive(false);
+            ready = true;
         }
     }
 
@@ -271,6 +274,7 @@ public class HandController : MonoBehaviourPunCallbacks
 
     public void GetReadyButton()
     {
+        ready = false;
         // deactivate ready button
         PlayerReadyButton.SetActive(true);
     }
