@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SpawnPlayers : MonoBehaviour
 {
+    public bool withAI = false;
     public GameObject PlayerPrefab;
     public GameObject HostPrefab;
 
@@ -15,17 +16,32 @@ public class SpawnPlayers : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {   // if its the host spawn the host, if it's the 2nd player spawn the AI, otherwise spawn the player
-        if (PhotonNetwork.IsMasterClient)
+        if (withAI)
         {
-            PhotonNetwork.Instantiate(HostPrefab.name, HostSpawnPoint.position, Quaternion.identity);
-        }
-        else if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
-        {
-            PhotonNetwork.Instantiate(AIPrefab.name, SpawnPoints[1].position, Quaternion.identity);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.Instantiate(HostPrefab.name, HostSpawnPoint.position, Quaternion.identity);
+            }
+            else if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+            {
+                PhotonNetwork.Instantiate(AIPrefab.name, SpawnPoints[1].position, Quaternion.identity);
+            }
+            else
+            {
+                PhotonNetwork.Instantiate(PlayerPrefab.name, SpawnPoints[PhotonNetwork.CurrentRoom.PlayerCount - 1].position, Quaternion.identity);
+            }
         }
         else
         {
-            PhotonNetwork.Instantiate(PlayerPrefab.name, SpawnPoints[PhotonNetwork.CurrentRoom.PlayerCount - 1].position, Quaternion.identity);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.Instantiate(HostPrefab.name, HostSpawnPoint.position, Quaternion.identity);
+            }
+            else
+            {
+                PhotonNetwork.Instantiate(PlayerPrefab.name, SpawnPoints[PhotonNetwork.CurrentRoom.PlayerCount - 1].position, Quaternion.identity);
+            }
         }
+
     }
 }

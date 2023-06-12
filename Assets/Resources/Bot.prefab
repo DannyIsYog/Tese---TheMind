@@ -335,6 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1480267897889516377}
   - component: {fileID: 5712982426127048592}
+  - component: {fileID: 2869477306450890965}
   m_Layer: 0
   m_Name: AI
   m_TagString: Untagged
@@ -373,6 +374,21 @@ MonoBehaviour:
   handController: {fileID: 6874688928390862811}
   boardController: {fileID: 6874688929370852122}
   counterText: {fileID: 7291511611895107860}
+  httpSender: {fileID: 2869477306450890965}
+--- !u!114 &2869477306450890965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3004785457383163169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 441c119a1411ea64fa4a00ed870597e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  url: http://10.42.0.1:10000
+  message: Hello, server!
 --- !u!1 &4003209926847578414
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,6 +721,7 @@ MonoBehaviour:
   notificationText: {fileID: 5748953180705854478}
   PlayerReadyButton: {fileID: 4003209926847578414}
   PlayingCardNotification: {fileID: 8423096302862128847}
+  ai: {fileID: 0}
   ready: 0
 --- !u!114 &5172696449061473356
 MonoBehaviour:

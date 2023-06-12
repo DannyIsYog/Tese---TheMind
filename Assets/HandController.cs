@@ -38,6 +38,8 @@ public class HandController : MonoBehaviourPunCallbacks
 
     public GameObject PlayingCardNotification;
 
+    public AI ai;
+
     public bool ready = false;
 
     private void Start()
@@ -77,6 +79,7 @@ public class HandController : MonoBehaviourPunCallbacks
 
         // set ready button active
         PlayerReadyButton.SetActive(true);
+        InvokeRepeating("UpdateCardCountRPC", 0f, 3f);
     }
 
     // player ready
@@ -256,6 +259,12 @@ public class HandController : MonoBehaviourPunCallbacks
         }
         notificationText.text = text;
         Invoke("UpdateNotificationText", 2f);
+
+        ai = FindObjectOfType<AI>();
+        if (ai != null)
+        {
+            ai.UpdateNotification(text);
+        }
     }
 
     public void UpdateNotificationText()
@@ -277,6 +286,11 @@ public class HandController : MonoBehaviourPunCallbacks
         ready = false;
         // deactivate ready button
         PlayerReadyButton.SetActive(true);
+    }
+
+    public void UpdateCardCounterRPC()
+    {
+        photonView.RPC("UpdateCardCount", RpcTarget.All, CardsInHand.Count, photonView.ViewID);
     }
 
     [PunRPC]

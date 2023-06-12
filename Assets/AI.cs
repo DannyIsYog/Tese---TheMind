@@ -1,4 +1,5 @@
-using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -14,9 +15,15 @@ public class AI : MonoBehaviour
 
     public TextMeshProUGUI counterText;
 
+    public HttpSender httpSender;
+
+    public Dictionary<int, bool> playedCards = new Dictionary<int, bool>();
+
+    bool far = false;
+
     private void Start()
     {
-
+        command("start AI");
     }
 
     public void WaitForReady()
@@ -68,6 +75,7 @@ public class AI : MonoBehaviour
 
     void StartGame()
     {
+        playedCards = new Dictionary<int, bool>();
         count();
     }
 
@@ -87,6 +95,9 @@ public class AI : MonoBehaviour
 
     void checkCards()
     {
+        isCardFar();
+        bool anyClose = false;
+        bool played = false;
         // check all cards in hand, if the number is the same as the counter, play the card
         foreach (GameObject card in handController.CardsInHand)
         {
@@ -94,21 +105,72 @@ public class AI : MonoBehaviour
             int numberCard = int.Parse(card.GetComponentInChildren<TextMeshProUGUI>().text);
 
             // if the card is two or one less than the counter
-            if (numberCard == counter || numberCard == counter + 1 || numberCard == counter + 2 || numberCard == counter + 3 || numberCard == counter + 4)
+            if (numberCard == counter + 1 || numberCard == counter + 2)
             {
+                if (playedCards.ContainsKey(numberCard)) continue;
+                playedCards.Add(numberCard, true);
                 // play the card
+                anyClose = true;
                 card.GetComponent<CardDragger>().PlayingCardNotification(true);
+                command("play_card");
             }
             if (numberCard == counter)
             {
                 // play the card
                 card.GetComponent<CardDragger>().PlayingCardNotification(false);
                 card.GetComponent<CardDragger>().MoveCardUp();
-                Invoke("count", 2f);
-                return;
+                far = false;
+                played = true;
+            }
+            if (!anyClose)
+            {
+                card.GetComponent<CardDragger>().PlayingCardNotification(false);
             }
         }
-        Invoke("count", 1f);
+        if (played) Invoke("count", 2f);
+        else Invoke("count", 1f);
+    }
+
+    // check if all cards are 10 or more away from counter, return bool
+    void isCardFar()
+    {
+        if (far) return;
+        far = true;
+        // check all cards in hand, if the number is the same as the counter, play the card
+        foreach (GameObject card in handController.CardsInHand)
+        {
+            int numberCard = int.Parse(card.GetComponentInChildren<TextMeshProUGUI>().text);
+
+            // if the card is ten or more than the counter
+            if (numberCard <= counter + 10)
+            {
+                far = false;
+            }
+        }
+
+        if (far)
+        {
+            // play the card
+            command("look_at_others");
+        }
+    }
+
+    public void UpdateNotification(string text)
+    {
+        switch (text)
+        {
+            case "Round ended":
+                command("win_round");
+                break;
+            case "Game ended":
+                command("win_game");
+                break;
+        }
+    }
+
+    public void command(string message)
+    {
+        StartCoroutine(httpSender.SendRequest(message));
     }
 
 

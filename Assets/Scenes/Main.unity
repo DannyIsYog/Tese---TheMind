@@ -413,6 +413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8cc9971bd613243924d2f46286b347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  withAI: 1
   PlayerPrefab: {fileID: 6874688928717892886, guid: ebda6391f08e28642b4338dc98826bd7, type: 3}
   HostPrefab: {fileID: 1330079235902228177, guid: 256e7ece99336064fb08dcee4463c257, type: 3}
   AIPrefab: {fileID: 6874688928717892886, guid: ccf5b92310b5e484b9616d06cfc23f7b, type: 3}

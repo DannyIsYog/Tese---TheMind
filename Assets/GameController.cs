@@ -159,6 +159,8 @@ public class GameController : MonoBehaviourPunCallbacks
     // create deck of cards numbers 1 to 100
     public void CreateDeck()
     {
+        // reset deck
+        CardsInDeck.Clear();
         // loop through cards
         for (int i = 1; i <= 100; i++)
         {
