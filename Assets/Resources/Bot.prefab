@@ -387,8 +387,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441c119a1411ea64fa4a00ed870597e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: http://10.42.0.1:10000
+  url: http://192.168.88.55:10000
   message: Hello, server!
+  nextRequest: 
 --- !u!1 &4003209926847578414
 GameObject:
   m_ObjectHideFlags: 0

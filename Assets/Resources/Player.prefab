@@ -521,6 +521,7 @@ MonoBehaviour:
   notificationText: {fileID: 5748953180705854478}
   PlayerReadyButton: {fileID: 4003209926847578414}
   PlayingCardNotification: {fileID: 8423096302862128847}
+  ai: {fileID: 0}
   ready: 0
 --- !u!114 &5172696449061473356
 MonoBehaviour:

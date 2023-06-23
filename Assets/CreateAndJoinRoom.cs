@@ -13,6 +13,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     {
         // set player name
         PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("0000");
+
     }
 
     // Update is called once per frame

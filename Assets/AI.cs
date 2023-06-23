@@ -21,8 +21,13 @@ public class AI : MonoBehaviour
 
     bool far = false;
 
+    bool roundEnded = false;
+
+    int lifes = 3;
+
     private void Start()
     {
+        lifes = handController.lifes;
         command("start AI");
     }
 
@@ -43,6 +48,7 @@ public class AI : MonoBehaviour
     {
         // get counter
         counter = 0;
+        roundEnded = false;
 
         // start playing
         checkReady();
@@ -157,14 +163,37 @@ public class AI : MonoBehaviour
 
     public void UpdateNotification(string text)
     {
+        // check if text is in the format "Card " + cardValue + " was played"
+        if (text.Contains("Card"))
+        {
+            // get the card value
+            int cardValue = int.Parse(text.Split(' ')[1]);
+
+            //set counter to card value
+            counter = cardValue;
+        }
+
+        if (roundEnded) return;
         switch (text)
         {
             case "Round ended":
+                roundEnded = true;
                 command("win_round");
                 break;
             case "Game ended":
+                roundEnded = true;
                 command("win_game");
                 break;
+        }
+    }
+
+    private void Update()
+    {
+        // check handcontroller for changes in life
+        if (handController.lifes < lifes)
+        {
+            lifes = handController.lifes;
+            command("lose_life");
         }
     }
 
