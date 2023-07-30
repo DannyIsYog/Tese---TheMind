@@ -46,7 +46,7 @@ jobs:
           git commit -m "Update docs"
           git push
 ```     env:
-          Branch: docs
+          BRANCH: docs
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
