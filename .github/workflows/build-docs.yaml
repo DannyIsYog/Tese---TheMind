@@ -37,7 +37,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CLEAR_GLOBS_FILE: ".github/workflows/.clear-target-files"
       
-      # go to docs branch, delete everything that is not inside the html folder, move the files on the html folder to root
+      # go to docs branch, delete everything that is not inside the html folder, move the files on the html folder to root.
       - name: Move files to root
         run: |
           sudo git checkout -b docs
