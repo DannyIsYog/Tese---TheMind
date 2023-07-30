@@ -33,7 +33,7 @@ jobs:
         env:
           REPO: self
           BRANCH: docs
-          FOLDER: docs
+          FOLDER: docs/html
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CLEAR_GLOBS_FILE: ".github/workflows/.clear-target-files"
 
@@ -41,4 +41,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{github.workspace}}
+          publish_dir: ${{github.workspace}}/docs/html
