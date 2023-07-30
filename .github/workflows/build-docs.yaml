@@ -39,6 +39,7 @@ jobs:
       # move the files inside folder "htlm" on docs branch to root
       - name: Move files to root
         run: |
+          ls
           mv html/* . 
           rm -rf html
           git add .
