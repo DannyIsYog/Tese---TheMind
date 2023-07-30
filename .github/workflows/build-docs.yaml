@@ -33,6 +33,7 @@ jobs:
         env:
           REPO: self
           BRANCH: docs
+          FOLDER: .
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CLEAR_GLOBS_FILE: ".github/workflows/.clear-target-files"
 
