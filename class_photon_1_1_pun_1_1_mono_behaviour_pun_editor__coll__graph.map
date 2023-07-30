@@ -1,0 +1,7 @@
+<map id="Photon.Pun.MonoBehaviourPunEditor" name="Photon.Pun.MonoBehaviourPunEditor">
+<area shape="rect" id="node1" title=" " alt="" coords="5,260,188,301"/>
+<area shape="rect" id="node2" title=" " alt="" coords="48,171,103,197"/>
+<area shape="rect" id="node3" href="$class_photon_1_1_pun_1_1_mono_behaviour_pun.html" title="This class adds the property photonView, while logging a warning when your game still uses the networ..." alt="" coords="127,171,333,197"/>
+<area shape="rect" id="node4" title=" " alt="" coords="149,5,261,32"/>
+<area shape="rect" id="node5" href="$class_photon_1_1_pun_1_1_photon_view.html" title="A PhotonView identifies an object across the network (viewID) and configures how the controlling clie..." alt="" coords="226,81,389,108"/>
+</map>
