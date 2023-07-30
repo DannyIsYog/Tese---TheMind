@@ -1,0 +1,4 @@
+<map id="Photon.Realtime.IOnEventCallback" name="Photon.Realtime.IOnEventCallback">
+<area shape="rect" id="node1" title="Event callback for the Realtime Api. Covers events from the server and those sent by clients via OpRa..." alt="" coords="5,5,180,47"/>
+<area shape="rect" id="node2" href="$class_photon_1_1_pun_1_1_utility_scripts_1_1_pun_turn_manager.html" title="Pun turnBased Game manager. Provides an Interface (IPunTurnManagerCallbacks) for the typical turn flo..." alt="" coords="8,95,177,136"/>
+</map>

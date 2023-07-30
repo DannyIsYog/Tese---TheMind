@@ -1,0 +1,5 @@
+<map id="Photon.Realtime.PhotonAppSettings" name="Photon.Realtime.PhotonAppSettings">
+<area shape="rect" id="node1" title="Collection of connection&#45;relevant settings, used internally by PhotonNetwork.ConnectUsingSettings." alt="" coords="62,95,246,136"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,124,32"/>
+<area shape="rect" id="node3" href="$class_photon_1_1_realtime_1_1_app_settings.html" title="Settings for Photon application(s) and the server to connect to." alt="" coords="148,5,339,32"/>
+</map>

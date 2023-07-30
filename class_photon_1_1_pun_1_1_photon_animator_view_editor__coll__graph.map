@@ -1,0 +1,12 @@
+<map id="Photon.Pun.PhotonAnimatorViewEditor" name="Photon.Pun.PhotonAnimatorViewEditor">
+<area shape="rect" id="node1" title=" " alt="" coords="1116,99,1301,141"/>
+<area shape="rect" id="node2" href="$class_photon_1_1_pun_1_1_mono_behaviour_pun_editor.html" title=" " alt="" coords="818,56,986,83"/>
+<area shape="rect" id="node3" title=" " alt="" coords="511,5,566,32"/>
+<area shape="rect" id="node4" href="$class_photon_1_1_pun_1_1_mono_behaviour_pun.html" title="This class adds the property photonView, while logging a warning when your game still uses the networ..." alt="" coords="436,56,641,83"/>
+<area shape="rect" id="node5" title=" " alt="" coords="5,87,117,113"/>
+<area shape="rect" id="node6" href="$class_photon_1_1_pun_1_1_photon_view.html" title="A PhotonView identifies an object across the network (viewID) and configures how the controlling clie..." alt="" coords="167,87,329,113"/>
+<area shape="rect" id="node8" href="$class_photon_1_1_pun_1_1_mono_behaviour_pun.html" title="This class adds the property photonView, while logging a warning when your game still uses the networ..." alt="" coords="471,107,606,133"/>
+<area shape="rect" id="node7" href="$class_photon_1_1_pun_1_1_photon_animator_view.html" title="This class helps you to synchronize Mecanim animations Simply add the component to your GameObject an..." alt="" coords="795,132,1009,159"/>
+<area shape="rect" id="node9" href="$interface_photon_1_1_pun_1_1_i_pun_observable.html" title="Defines the OnPhotonSerializeView method to make it easy to implement correctly for observable script..." alt="" coords="481,157,596,184"/>
+<area shape="rect" id="node10" href="$class_photon_1_1_pun_1_1_photon_stream_queue.html" title="The PhotonStreamQueue helps you poll object states at higher frequencies than what PhotonNetwork...." alt="" coords="432,208,645,235"/>
+</map>

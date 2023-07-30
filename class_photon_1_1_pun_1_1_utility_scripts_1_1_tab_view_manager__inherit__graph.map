@@ -1,0 +1,4 @@
+<map id="Photon.Pun.UtilityScripts.TabViewManager" name="Photon.Pun.UtilityScripts.TabViewManager">
+<area shape="rect" id="node1" title="Tab view manager. Handles Tab views activation and deactivation, and provides a Unity Event Callback ..." alt="" coords="5,80,175,121"/>
+<area shape="rect" id="node2" title=" " alt="" coords="34,5,146,32"/>
+</map>

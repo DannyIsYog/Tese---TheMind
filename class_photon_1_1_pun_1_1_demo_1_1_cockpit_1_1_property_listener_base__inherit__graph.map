@@ -1,0 +1,27 @@
+<map id="Photon.Pun.Demo.Cockpit.PropertyListenerBase" name="Photon.Pun.Demo.Cockpit.PropertyListenerBase">
+<area shape="rect" id="node1" title="Property listener base." alt="" coords="165,724,341,765"/>
+<area shape="rect" id="node3" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_best_region_in_prefs_property.html" title="PhotonNetwork.BestRegionSummaryInPreferences UI property." alt="" coords="417,5,596,47"/>
+<area shape="rect" id="node4" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_cloud_region_property.html" title="PhotonNetwork.CloudRegion UI property." alt="" coords="419,71,595,112"/>
+<area shape="rect" id="node5" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_count_of_players_in_room_property.html" title="PhotonNetwork.CountOfPlayersInRooms UI property." alt="" coords="403,136,610,177"/>
+<area shape="rect" id="node6" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_count_of_players_on_master_property.html" title="PhotonNetwork.CountOfPlayersOnMaster UI property." alt="" coords="397,201,616,243"/>
+<area shape="rect" id="node7" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_count_of_players_property.html" title="PhotonNetwork.CountOfPlayers UI property." alt="" coords="419,267,595,308"/>
+<area shape="rect" id="node8" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_count_of_rooms_property.html" title="PhotonNetwork.CountOfRooms UIs property." alt="" coords="419,332,595,373"/>
+<area shape="rect" id="node9" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_current_room_auto_cleanup_property.html" title="PhotonNetwork.CurrentRoom.AutoCleanUp UI property." alt="" coords="397,397,617,439"/>
+<area shape="rect" id="node10" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_current_room_empty_room_ttl_property.html" title="PhotonNetwork.CurrentRoom.EmptyRoomTtl UI property." alt="" coords="391,463,622,504"/>
+<area shape="rect" id="node11" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_current_room_expected_users_property.html" title="PhotonNetwork.CurrentRoom.ExpectedUsers UI property." alt="" coords="389,528,624,569"/>
+<area shape="rect" id="node12" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_current_room_is_offline_property.html" title="PhotonNetwork.CurrentRoom.IsOffline UI property" alt="" coords="410,593,603,635"/>
+<area shape="rect" id="node13" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_current_room_is_open_property.html" title="PhotonNetwork.CurrentRoom.IsOpen UI property." alt="" coords="413,659,601,700"/>
+<area shape="rect" id="node14" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_current_room_is_visible_property.html" title="PhotonNetwork.CurrentRoom.IsVisible UI property" alt="" coords="409,724,605,765"/>
+<area shape="rect" id="node15" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_current_room_master_client_id_property.html" title="PhotonNetwork.CurrentRoom.MasterClientId UI property." alt="" coords="391,789,622,831"/>
+<area shape="rect" id="node16" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_current_room_max_players_property.html" title="PhotonNetwork.CurrentRoom.MaxPlayers UI property." alt="" coords="400,855,613,896"/>
+<area shape="rect" id="node17" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_current_room_name_property.html" title="PhotonNetwork.CurrentRoom.Name UI property." alt="" coords="416,920,597,961"/>
+<area shape="rect" id="node18" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_current_room_player_count_property.html" title="PhotonNetwork.CurrentRoom.PlayerCount UI property." alt="" coords="399,985,615,1027"/>
+<area shape="rect" id="node19" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_current_room_player_ttl_property.html" title="PhotonNetwork.CurrentRoom.PlayerTtl UI property." alt="" coords="408,1051,605,1092"/>
+<area shape="rect" id="node20" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_current_room_properties_listed_in_lobby_property.html" title="PhotonNetwork.CurrentRoom.PropertiesListedInLobby UI property." alt="" coords="405,1115,609,1171"/>
+<area shape="rect" id="node21" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_is_connected_and_ready_property.html" title="PhotonNetwork.IsConnectedAndReady UI property" alt="" coords="405,1195,608,1236"/>
+<area shape="rect" id="node22" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_is_connected_property.html" title="PhotonNetwork.IsConnected UI property" alt="" coords="419,1260,595,1301"/>
+<area shape="rect" id="node23" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_offline_mode_property.html" title="PhotonNetwork.OfflineMode UI property" alt="" coords="419,1325,595,1367"/>
+<area shape="rect" id="node24" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_ping_property.html" title="PhotonNetwork.GetPing() UI property." alt="" coords="419,1391,595,1432"/>
+<area shape="rect" id="node25" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_server_property.html" title="PhotonNetwork.Server UI property" alt="" coords="419,1456,595,1497"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,731,117,758"/>
+</map>
