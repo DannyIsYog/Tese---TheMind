@@ -28,7 +28,9 @@ public class BoardController : MonoBehaviourPunCallbacks
 
         Destroy(card);
 
+        // get the player number from PhotonNetwork.LocalPlayer.ActorNumber
+        int playerNumber = PhotonNetwork.LocalPlayer.ActorNumber;
         //gameController.photonView.RPC("CardToMiddlePile", RpcTarget.All, cardNumber);
-        gameController.CardToMiddlePile(cardNumber);
+        gameController.CardToMiddlePile(cardNumber, playerNumber);
     }
 }

@@ -73,13 +73,13 @@ public class HandController : MonoBehaviourPunCallbacks
 
         // get player number
         int playerNumber = photonView.Owner.ActorNumber;
-        playerNumberText.text = "PLayer " + playerNumber.ToString();
+        playerNumberText.text = "Player " + playerNumber.ToString();
         lifes = gameController.lifes;
         UpdateLifeText();
 
         // set ready button active
         PlayerReadyButton.SetActive(true);
-        InvokeRepeating("UpdateCardCountRPC", 0f, 3f);
+        InvokeRepeating("UpdateCardCounterRPC", 0f, 1f);
     }
 
     // player ready
@@ -255,7 +255,7 @@ public class HandController : MonoBehaviourPunCallbacks
         if (notificationText != null)
         {
             //cancel invoke
-            CancelInvoke();
+            CancelInvoke("UpdateNotificationText");
         }
         notificationText.text = text;
         Invoke("UpdateNotificationText", 2f);
@@ -290,7 +290,13 @@ public class HandController : MonoBehaviourPunCallbacks
 
     public void UpdateCardCounterRPC()
     {
+        // if is local player don't return
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         photonView.RPC("UpdateCardCount", RpcTarget.All, CardsInHand.Count, photonView.ViewID);
+        Debug.Log("Sending UpdateCardCounterRPC for: " + photonView.ViewID + " with " + CardsInHand.Count.ToString() + " cards");
     }
 
     [PunRPC]
@@ -299,6 +305,7 @@ public class HandController : MonoBehaviourPunCallbacks
         if (photonView.ViewID == ID)
         {
             CardsCount = count;
+            Debug.Log("Recieved UpdateCardCounterRPC for: " + ID + " with " + count.ToString() + " cards");
         }
     }
 

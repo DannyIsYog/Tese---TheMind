@@ -19,11 +19,17 @@ public class AI : MonoBehaviour
 
     public Dictionary<int, bool> playedCards = new Dictionary<int, bool>();
 
+    public int cardsInHands = -1;
+
     bool far = false;
 
     bool roundEnded = false;
 
     int lifes = 3;
+
+    string lastMessage = "";
+
+    int lastCardPlayed = -10;
 
     private void Start()
     {
@@ -58,6 +64,7 @@ public class AI : MonoBehaviour
     {
         if (!handController.ready)
         {
+            cardsInHands = -1;
             handController.PlayerReady();
             WaitForGameStart();
         }
@@ -81,26 +88,31 @@ public class AI : MonoBehaviour
 
     void StartGame()
     {
+        counter = 0;
         playedCards = new Dictionary<int, bool>();
+        command("start");
         count();
     }
 
     void count()
     {
+        if (handController.CardsInHand.Count == 0)
+        {
+            counter = 0;
+            CancelInvoke();
+            WaitForReady();
+        }
         // add 1 to counter
         counter++;
         counterText.text = counter.ToString();
         checkCards();
 
-        if (handController.CardsInHand.Count == 0)
-        {
-            CancelInvoke("count");
-            WaitForReady();
-        }
+
     }
 
     void checkCards()
     {
+
         isCardFar();
         bool anyClose = false;
         bool played = false;
@@ -137,10 +149,26 @@ public class AI : MonoBehaviour
         else Invoke("count", 1f);
     }
 
+    void playAllCards()
+    {
+        // play all cards
+        foreach (GameObject card in handController.CardsInHand)
+        {
+            if (card == null) return;
+            card.GetComponent<CardDragger>().PlayingCardNotification(false);
+            card.GetComponent<CardDragger>().MoveCardUp();
+        }
+    }
+
     // check if all cards are 10 or more away from counter, return bool
     void isCardFar()
     {
         if (far) return;
+        if (handController.CardsInHand.Count == 0)
+        {
+            far = true;
+            return;
+        }
         far = true;
         // check all cards in hand, if the number is the same as the counter, play the card
         foreach (GameObject card in handController.CardsInHand)
@@ -148,7 +176,7 @@ public class AI : MonoBehaviour
             int numberCard = int.Parse(card.GetComponentInChildren<TextMeshProUGUI>().text);
 
             // if the card is ten or more than the counter
-            if (numberCard <= counter + 10)
+            if (numberCard <= counter + 30)
             {
                 far = false;
             }
@@ -163,27 +191,52 @@ public class AI : MonoBehaviour
 
     public void UpdateNotification(string text)
     {
+        if (text.Equals(lastMessage))
+        {
+            return;
+        }
+        lastMessage = text;
         // check if text is in the format "Card " + cardValue + " was played"
         if (text.Contains("Card"))
         {
-            // get the card value
             int cardValue = int.Parse(text.Split(' ')[1]);
 
+            // get the number of the player that played the card
+            int playerNumber = int.Parse(text.Split(' ')[5]);
+
+            Debug.Log("Card " + cardValue + " was played by player " + playerNumber);
+            // if the card played is very close to the last card played, command hello
+            if (cardValue == lastCardPlayed + 1 || cardValue == lastCardPlayed + 2)
+            {
+                command("close_call");
+            }
+            else if (playerNumber == 3)
+            {
+                Debug.Log("look right");
+                command("look_right");
+            }
+            else if (playerNumber == 4)
+            {
+                Debug.Log("look left");
+                command("look_left");
+            }
+            lastCardPlayed = cardValue;
             //set counter to card value
             counter = cardValue;
+            cardsInHands--;
         }
 
         if (roundEnded) return;
-        switch (text)
+
+        if (text.Contains("Game ended"))
         {
-            case "Round ended":
-                roundEnded = true;
-                command("win_round");
-                break;
-            case "Game ended":
-                roundEnded = true;
-                command("win_game");
-                break;
+            roundEnded = true;
+            command("win_game");
+        }
+        else if (text.Contains("Round ended"))
+        {
+            roundEnded = true;
+            command("win_round");
         }
     }
 

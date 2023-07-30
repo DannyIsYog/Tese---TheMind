@@ -103,6 +103,7 @@ public class CardDragger : MonoBehaviourPunCallbacks
         handController.RemoveCard(gameObject);
         //add card to middle pile
         boardController.AddCardToMiddlePile(gameObject);
+        handController.UpdateCardCounterRPC();
     }
 
     public void ChangeCardColours()

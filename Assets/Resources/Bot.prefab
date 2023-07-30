@@ -189,7 +189,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942175792854783052}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &2885512444410016200
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,6 +375,7 @@ MonoBehaviour:
   boardController: {fileID: 6874688929370852122}
   counterText: {fileID: 7291511611895107860}
   httpSender: {fileID: 2869477306450890965}
+  cardsInHands: -1
 --- !u!114 &2869477306450890965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,9 +388,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441c119a1411ea64fa4a00ed870597e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: http://192.168.88.55:10000
   message: Hello, server!
   nextRequest: 
+  disable: 0
 --- !u!1 &4003209926847578414
 GameObject:
   m_ObjectHideFlags: 0

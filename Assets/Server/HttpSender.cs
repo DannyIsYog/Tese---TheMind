@@ -5,11 +5,12 @@ using UnityEngine;
 using UnityEngine.Networking;
 public class HttpSender : MonoBehaviour
 {
-    public string url = "http://192.168.88.55:10000";
+    string url = "http://elmo:10000";
     public string message = "Hello, server!";
 
     public List<Command> nextRequest = new List<Command>();
 
+    public bool disable = true;
     public enum Command
     {
         LOSE_GAME = 1,
@@ -27,8 +28,6 @@ public class HttpSender : MonoBehaviour
     {
         return command.ToString().ToLower();
     }
-
-    bool disable = false;
     public void addRequest(string request)
     {
         // if theres a command with a higher number in the list, dont add this

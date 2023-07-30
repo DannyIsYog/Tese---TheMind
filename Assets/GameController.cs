@@ -80,7 +80,6 @@ public class GameController : MonoBehaviourPunCallbacks
         {
             return;
         }
-        // check if game has already started
         if (gameStarted)
         {
             return;
@@ -226,14 +225,14 @@ public class GameController : MonoBehaviourPunCallbacks
         return null;
     }
 
-    public void CardToMiddlePile(int card)
+    public void CardToMiddlePile(int card, int playerNumber)
     {
         //rpc call
-        photonView.RPC("CardToMiddlePileRPC", RpcTarget.MasterClient, card);
+        photonView.RPC("CardToMiddlePileRPC", RpcTarget.MasterClient, card, playerNumber);
     }
 
     [PunRPC]
-    public void CardToMiddlePileRPC(int cardValue)
+    public void CardToMiddlePileRPC(int cardValue, int playerNumber)
     {
         if (!gameStarted) return;
         // check if card played has higher value than the current card showing
@@ -248,7 +247,7 @@ public class GameController : MonoBehaviourPunCallbacks
             cardObject.GetComponentInChildren<CardDragger>().SetCardNumber(cardValue);
 
             CardShowing = cardObject;
-            SendNotificationRPC("Card " + cardValue + " was played");
+            SendNotificationRPC("Card " + cardValue + " was played by " + playerNumber);
         }
         else if (cardValue <= CardsInMiddlePile[0])
         {
@@ -269,7 +268,7 @@ public class GameController : MonoBehaviourPunCallbacks
             cardObject.GetComponentInChildren<CardDragger>().SetCardNumber(cardValue);
 
             CardShowing = cardObject;
-            SendNotificationRPC("Card " + cardValue + " was played");
+            SendNotificationRPC("Card " + cardValue + " was played by " + playerNumber);
         }
         if (!IsLowestCard(cardValue))
         {
