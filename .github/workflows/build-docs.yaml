@@ -39,7 +39,7 @@ jobs:
       # go to docs branch and move the files on the html folder to root
       - name: Move files to root
         run: |
-          git checkout docs
+          git checkout -b docs
           mv doxy/html/* .
           git add .
           git commit -m "Update docs"
