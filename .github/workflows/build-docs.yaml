@@ -35,6 +35,16 @@ jobs:
           BRANCH: docs
           FOLDER: doxy
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      # move the files inside folder "htlm" on docs branch to root
+      - name: Move files to root
+        run: |
+          cd ..
+          mv html/* .
+          rm -rf html
+          git add .
+          git commit -m "Update docs"
+          git push
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
