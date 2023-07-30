@@ -43,7 +43,6 @@ jobs:
           sudo git checkout -b docs
           sudo git config pull.rebase true
           sudo git pull origin docs
-          sudo rm -rf *
           sudo mv doxy/html/* .
           sudo git config --global user.name 'The Mind'
           sudo git config --global user.email 'themind@gamedev.tecnico.ulisboa.pt'
