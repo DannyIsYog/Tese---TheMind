@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_photon_1_1_realtime_1_1_typed_lobby.html" title="Refers to a specific lobby on the server." alt="" coords="5,5,196,32"/>
+<area shape="rect" id="node2" href="$class_photon_1_1_realtime_1_1_typed_lobby_info.html" title="Info for a lobby on the server. Used when LoadBalancingClient.EnableLobbyStatistics is true." alt="" coords="244,5,456,32"/>
+</map>
