@@ -1,6 +1,0 @@
-<map id="Photon.Pun.Demo.PunBasics.PlayerAnimatorManager" name="Photon.Pun.Demo.PunBasics.PlayerAnimatorManager">
-<area shape="rect" id="node1" title=" " alt="" coords="5,247,200,288"/>
-<area shape="rect" id="node2" href="$class_photon_1_1_pun_1_1_mono_behaviour_pun.html" title="This class adds the property photonView, while logging a warning when your game still uses the networ..." alt="" coords="35,171,170,197"/>
-<area shape="rect" id="node3" title=" " alt="" coords="41,5,153,32"/>
-<area shape="rect" id="node4" href="$class_photon_1_1_pun_1_1_photon_view.html" title="A PhotonView identifies an object across the network (viewID) and configures how the controlling clie..." alt="" coords="119,81,281,108"/>
-</map>

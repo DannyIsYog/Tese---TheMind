@@ -1,8 +1,0 @@
-<map id="Photon.Pun.MonoBehaviourPunEditor" name="Photon.Pun.MonoBehaviourPunEditor">
-<area shape="rect" id="node1" title=" " alt="" coords="108,104,291,145"/>
-<area shape="rect" id="node3" href="$class_photon_1_1_pun_1_1_photon_animator_view_editor.html" title=" " alt="" coords="344,5,529,47"/>
-<area shape="rect" id="node4" href="$class_photon_1_1_pun_1_1_photon_rigidbody2_d_view_editor.html" title=" " alt="" coords="339,71,535,112"/>
-<area shape="rect" id="node5" href="$class_photon_1_1_pun_1_1_photon_rigidbody_view_editor.html" title=" " alt="" coords="342,136,531,177"/>
-<area shape="rect" id="node6" href="$class_photon_1_1_pun_1_1_photon_transform_view_classic_editor.html" title=" " alt="" coords="341,201,533,243"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,111,60,138"/>
-</map>
