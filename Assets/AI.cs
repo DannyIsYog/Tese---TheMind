@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// AI class that controls the AI's movement and actions
+/// </summary>
 public class AI : MonoBehaviour
 {
     // AI that will play the game
