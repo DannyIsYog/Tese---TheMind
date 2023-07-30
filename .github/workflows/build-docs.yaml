@@ -40,6 +40,7 @@ jobs:
       - name: Move files to root
         run: |
           sudo git checkout -b docs
+          sudo git config pull.rebase false
           sudo git pull origin docs
           sudo mv doxy/html/* .
           sudo git config --global user.name 'The Mind'
