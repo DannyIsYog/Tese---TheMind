@@ -22,9 +22,9 @@ public class SpawnPlayers : MonoBehaviour
             {
                 PhotonNetwork.Instantiate(HostPrefab.name, HostSpawnPoint.position, Quaternion.identity);
             }
-            else if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+            else if (PhotonNetwork.CurrentRoom.PlayerCount == 4)
             {
-                PhotonNetwork.Instantiate(AIPrefab.name, SpawnPoints[1].position, Quaternion.identity);
+                PhotonNetwork.Instantiate(AIPrefab.name, SpawnPoints[4].position, Quaternion.identity);
             }
             else
             {

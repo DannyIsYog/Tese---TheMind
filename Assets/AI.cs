@@ -28,7 +28,7 @@ public class AI : MonoBehaviour
 
     bool roundEnded = false;
 
-    int lifes = 3;
+    public int lifes = 3;
 
     string lastMessage = "";
 
@@ -36,7 +36,7 @@ public class AI : MonoBehaviour
 
     private void Start()
     {
-        lifes = handController.lifes;
+        lifes = 3;
         command("start AI");
     }
 
@@ -56,7 +56,7 @@ public class AI : MonoBehaviour
     public void StartCheck()
     {
         // get counter
-        counter = 0;
+        counter = -2;
         roundEnded = false;
 
         // start playing
@@ -91,7 +91,7 @@ public class AI : MonoBehaviour
 
     void StartGame()
     {
-        counter = 0;
+        counter = -1;
         playedCards = new Dictionary<int, bool>();
         command("start");
         count();
@@ -101,7 +101,7 @@ public class AI : MonoBehaviour
     {
         if (handController.CardsInHand.Count == 0)
         {
-            counter = 0;
+            counter = -1;
             CancelInvoke();
             WaitForReady();
         }

@@ -376,6 +376,7 @@ MonoBehaviour:
   counterText: {fileID: 7291511611895107860}
   httpSender: {fileID: 2869477306450890965}
   cardsInHands: -1
+  lifes: 3
 --- !u!114 &2869477306450890965
 MonoBehaviour:
   m_ObjectHideFlags: 0
