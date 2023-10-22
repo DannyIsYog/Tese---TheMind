@@ -1,0 +1,14 @@
+<map id="Photon.Pun.UtilityScripts.PlayerNumbering" name="Photon.Pun.UtilityScripts.PlayerNumbering">
+<area shape="rect" id="node1" title="Implements consistent numbering in a room/game with help of room properties. Access them by Player...." alt="" coords="968,183,1137,225"/>
+<area shape="rect" id="node2" href="$class_photon_1_1_pun_1_1_mono_behaviour_pun_callbacks.html" title="This class provides a .photonView and all callbacks/events that PUN can call. Override the events/met..." alt="" coords="643,157,835,184"/>
+<area shape="rect" id="node3" href="$class_photon_1_1_pun_1_1_mono_behaviour_pun.html" title="This class adds the property photonView, while logging a warning when your game still uses the networ..." alt="" coords="445,5,580,32"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,9,117,36"/>
+<area shape="rect" id="node5" href="$class_photon_1_1_pun_1_1_photon_view.html" title="A PhotonView identifies an object across the network (viewID) and configures how the controlling clie..." alt="" coords="167,35,329,61"/>
+<area shape="rect" id="node6" href="$interface_photon_1_1_realtime_1_1_i_connection_callbacks.html" title="Collection of &quot;organizational&quot; callbacks for the Realtime Api to cover: Connection and Regions." alt="" coords="439,56,587,83"/>
+<area shape="rect" id="node7" href="$interface_photon_1_1_realtime_1_1_i_matchmaking_callbacks.html" title="Collection of &quot;organizational&quot; callbacks for the Realtime Api to cover Matchmaking." alt="" coords="432,107,593,133"/>
+<area shape="rect" id="node8" href="$interface_photon_1_1_realtime_1_1_i_in_room_callbacks.html" title="Collection of &quot;in room&quot; callbacks for the Realtime Api to cover: Players entering or leaving,..." alt="" coords="449,157,577,184"/>
+<area shape="rect" id="node9" href="$interface_photon_1_1_realtime_1_1_i_lobby_callbacks.html" title="Collection of &quot;organizational&quot; callbacks for the Realtime Api to cover the Lobby." alt="" coords="453,208,572,235"/>
+<area shape="rect" id="node10" href="$interface_photon_1_1_realtime_1_1_i_web_rpc_callback.html" title="Interface for &quot;WebRpc&quot; callbacks for the Realtime Api. Currently includes only responses for Web RPCs..." alt="" coords="450,259,575,285"/>
+<area shape="rect" id="node11" href="$interface_photon_1_1_realtime_1_1_i_error_info_callback.html" title="Interface for EventCode.ErrorInfo event callback for the Realtime Api." alt="" coords="450,309,575,336"/>
+<area shape="rect" id="node12" href="$class_photon_1_1_realtime_1_1_player.html" title="Summarizes a &quot;player&quot; within a room, identified (in that room) by ID (or &quot;actorNumber&quot;)." alt="" coords="661,208,817,235"/>
+</map>

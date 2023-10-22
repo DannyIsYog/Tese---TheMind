@@ -1,0 +1,6 @@
+<map id="Photon.Pun.Demo.SlotRacer.SlotLanes" name="Photon.Pun.Demo.SlotRacer.SlotLanes">
+<area shape="rect" id="node1" title="Define Slot lanes and grid positions placeholders. This is a convenient approach to visually define t..." alt="" coords="5,289,195,331"/>
+<area shape="rect" id="node2" title=" " alt="" coords="73,5,185,32"/>
+<area shape="rect" id="node3" href="$class_photon_1_1_pun_1_1_demo_1_1_slot_racer_1_1_utils_1_1_spline_position.html" title=" " alt="" coords="116,185,305,227"/>
+<area shape="rect" id="node4" href="$class_photon_1_1_pun_1_1_demo_1_1_slot_racer_1_1_utils_1_1_bezier_spline.html" title=" " alt="" coords="167,81,356,123"/>
+</map>

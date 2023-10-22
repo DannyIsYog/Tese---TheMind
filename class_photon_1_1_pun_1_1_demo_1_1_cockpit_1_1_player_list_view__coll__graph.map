@@ -1,0 +1,18 @@
+<map id="Photon.Pun.Demo.Cockpit.PlayerListView" name="Photon.Pun.Demo.Cockpit.PlayerListView">
+<area shape="rect" id="node1" title="Player list UI View." alt="" coords="1435,209,1611,250"/>
+<area shape="rect" id="node16" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_player_list_cell.html" title="Player list cell representing a given PhotonPlayer" alt="" coords="1740,163,1916,205"/>
+<area shape="rect" id="node2" href="$class_photon_1_1_pun_1_1_mono_behaviour_pun_callbacks.html" title="This class provides a .photonView and all callbacks/events that PUN can call. Override the events/met..." alt="" coords="719,467,911,493"/>
+<area shape="rect" id="node12" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_player_details_controller.html" title="Controller for the Playerdetails UI view" alt="" coords="1088,243,1264,285"/>
+<area shape="rect" id="node3" href="$class_photon_1_1_pun_1_1_mono_behaviour_pun.html" title="This class adds the property photonView, while logging a warning when your game still uses the networ..." alt="" coords="445,467,580,493"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,465,117,492"/>
+<area shape="rect" id="node5" href="$class_photon_1_1_pun_1_1_photon_view.html" title="A PhotonView identifies an object across the network (viewID) and configures how the controlling clie..." alt="" coords="167,440,329,467"/>
+<area shape="rect" id="node15" href="$class_photon_1_1_pun_1_1_demo_1_1_cockpit_1_1_property_cell.html" title="Generic string Property Cell." alt="" coords="727,302,903,343"/>
+<area shape="rect" id="node6" href="$interface_photon_1_1_realtime_1_1_i_connection_callbacks.html" title="Collection of &quot;organizational&quot; callbacks for the Realtime Api to cover: Connection and Regions." alt="" coords="439,517,587,544"/>
+<area shape="rect" id="node7" href="$interface_photon_1_1_realtime_1_1_i_matchmaking_callbacks.html" title="Collection of &quot;organizational&quot; callbacks for the Realtime Api to cover Matchmaking." alt="" coords="432,568,593,595"/>
+<area shape="rect" id="node8" href="$interface_photon_1_1_realtime_1_1_i_in_room_callbacks.html" title="Collection of &quot;in room&quot; callbacks for the Realtime Api to cover: Players entering or leaving,..." alt="" coords="449,619,577,645"/>
+<area shape="rect" id="node9" href="$interface_photon_1_1_realtime_1_1_i_lobby_callbacks.html" title="Collection of &quot;organizational&quot; callbacks for the Realtime Api to cover the Lobby." alt="" coords="453,669,572,696"/>
+<area shape="rect" id="node10" href="$interface_photon_1_1_realtime_1_1_i_web_rpc_callback.html" title="Interface for &quot;WebRpc&quot; callbacks for the Realtime Api. Currently includes only responses for Web RPCs..." alt="" coords="450,365,575,392"/>
+<area shape="rect" id="node11" href="$interface_photon_1_1_realtime_1_1_i_error_info_callback.html" title="Interface for EventCode.ErrorInfo event callback for the Realtime Api." alt="" coords="450,416,575,443"/>
+<area shape="rect" id="node13" title=" " alt="" coords="489,205,536,232"/>
+<area shape="rect" id="node14" href="$class_photon_1_1_realtime_1_1_player.html" title="Summarizes a &quot;player&quot; within a room, identified (in that room) by ID (or &quot;actorNumber&quot;)." alt="" coords="737,115,893,141"/>
+</map>
