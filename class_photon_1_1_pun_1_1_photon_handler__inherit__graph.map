@@ -1,6 +1,0 @@
-<map id="Photon.Pun.PhotonHandler" name="Photon.Pun.PhotonHandler">
-<area shape="rect" id="node1" title="Internal MonoBehaviour that allows Photon to run an Update loop." alt="" coords="137,80,315,107"/>
-<area shape="rect" id="node2" href="$class_photon_1_1_realtime_1_1_connection_handler.html" title=" " alt="" coords="5,5,137,32"/>
-<area shape="rect" id="node3" href="$interface_photon_1_1_realtime_1_1_i_in_room_callbacks.html" title="Collection of &quot;in room&quot; callbacks for the Realtime Api to cover: Players entering or leaving,..." alt="" coords="162,5,290,32"/>
-<area shape="rect" id="node4" href="$interface_photon_1_1_realtime_1_1_i_matchmaking_callbacks.html" title="Collection of &quot;organizational&quot; callbacks for the Realtime Api to cover Matchmaking." alt="" coords="315,5,476,32"/>
-</map>

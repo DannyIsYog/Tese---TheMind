@@ -1,4 +1,0 @@
-<map id="Photon.Pun.Demo.PunBasics.PlayerUI" name="Photon.Pun.Demo.PunBasics.PlayerUI">
-<area shape="rect" id="node1" title="Player UI. Constraint the UI to follow a PlayerManager GameObject in the world, Affect a slider and t..." alt="" coords="5,80,200,121"/>
-<area shape="rect" id="node2" title=" " alt="" coords="47,5,159,32"/>
-</map>
