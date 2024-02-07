@@ -1,0 +1,4 @@
+<map id="Photon.Pun.Demo.Cockpit.InfosPanelPlaceholder" name="Photon.Pun.Demo.Cockpit.InfosPanelPlaceholder">
+<area shape="rect" id="node1" title="Infos panel placeholder. Defines the place where the infos panel should go. It will request InfoPanel..." alt="" coords="5,80,181,121"/>
+<area shape="rect" id="node2" title=" " alt="" coords="37,5,149,32"/>
+</map>
